@@ -19,7 +19,7 @@ export winepath=$SNAP/bin/winepath
 export WINEDLLPATH=$SNAP/lib/wine/fakedlls
 export WINEPREFIX=$SNAP_USER_COMMON/.wine
 export WINEDLLOVERRIDES="mscoree,mshtml="
-# export WINEDEBUG=-all
+export WINEDEBUG=-all
 export LD_LIBRARY_PATH="$SNAP/lib:$SNAP/lib/$ARCH:$SNAP/usr/lib:$SNAP/usr/lib/$ARCH:$LD_LIBRARY_PATH"
 
 export HOME=$SNAP_USER_COMMON

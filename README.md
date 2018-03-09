@@ -16,7 +16,10 @@ distributions.</p>
 ## Install
 
     sudo snap install resourcehacker --edge
+    sudo snap connect resourcehacker:hardware-observe
+    sudo snap connect resourcehacker:removable-media
     sudo snap connect resourcehacker:process-control
+    sudo snap connect resourcehacker:cups-control
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 

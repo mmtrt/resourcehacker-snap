@@ -1,5 +1,6 @@
 name: resourcehacker
-version: 4.5.30
+version: latest
+version-script: cat $SNAPCRAFT_STAGE/version
 summary: resourcehacker is a free resource extraction utility and resource compiler.
 description: |
  resourcehacker has been designed to be the complete resource editing tool & compiling, viewing, decompiling and recompiling resources for both 32bit and 64bit Windows executables. resourcehacker can open any type of Windows executable (*.exe; *.dll; *.scr; *.mui etc) so that individual resources can be added modified or deleted within these files. resourcehacker can create and compile resource script files (*.rc), and edit resource files (*.res) too.
@@ -67,6 +68,9 @@ parts:
       cp -r $ws/* $spi/ && rm -r $spi/opt $docs $mans $spi/share/wine/fonts
 
   resourcehacker:
+    install: |
+      ver=$(wget http://www.angusj.com/resourcehacker/ -q -S -O - 2>&1 | grep Version | awk '{print $2}' | sed 's|</strong><br>||')
+      echo $ver > $SNAPCRAFT_STAGE/version
     plugin: dump
     source: ./scripts
     prepare: ./dl_rh

@@ -98,13 +98,14 @@ mkrh () {
 }
 
 mkdsk () {
+ver=$(wget http://www.angusj.com/resourcehacker/ -q -S -O - 2>&1 | grep Version | awk '{print $2}' | sed 's|</strong><br>||')
 cat > resourcehacker.desktop <<'EOF1'
 [Desktop Entry]
 Name=Resource Hacker
 GenericName=Resource Editor
 Comment=Simple and free resource editing tool.
 Encoding=UTF-8
-Version=4.5.30
+Version=
 Type=Application
 Terminal=false
 Icon=${SNAP}/usr/share/pixmaps/resourcehacker.png
@@ -113,6 +114,7 @@ StartupWMClass=resourcehacker.exe
 Categories=Development
 MimeType=
 EOF1
+sed -i -e 's|Version=|Version='"$ver"'|g' resourcehacker.desktop
 }
 
 dlrh

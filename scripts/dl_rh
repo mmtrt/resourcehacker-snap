@@ -112,7 +112,7 @@ Icon=${SNAP}/usr/share/pixmaps/resourcehacker.png
 Exec=resourcehacker %F
 StartupWMClass=resourcehacker.exe
 Categories=Development
-MimeType=
+MimeType=application/x-ms-dos-executable;application/x-msdownload;
 EOF1
 sed -i -e 's|Version=|Version='"$ver"'|g' resourcehacker.desktop
 }

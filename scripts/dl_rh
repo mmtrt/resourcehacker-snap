@@ -98,7 +98,7 @@ mkrh () {
 }
 
 mkdsk () {
-ver=$(wget http://www.angusj.com/resourcehacker/ -q -S -O - 2>&1 | grep Version | awk '{print $2}' | sed 's|</strong><br>||')
+ver=$(wget http://www.angusj.com/resourcehacker/ -q -S -O - 2>&1 | grep Version | awk '{print $2}' | sed 's|</strong><br>||;2d')
 cat > resourcehacker.desktop <<'EOF1'
 [Desktop Entry]
 Name=Resource Hacker
@@ -121,5 +121,4 @@ dlrh
 mkrawpng
 mkrh
 mkdsk
-mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications
-rm resource_hac*.zip rawpng dl_rh
+mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications && cp -R -p {bin,usr,share} $SNAPCRAFT_PART_INSTALL

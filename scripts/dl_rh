@@ -11,11 +11,6 @@
 
 dlrh () {
     wget http://www.angusj.com/resourcehacker/resource_hacker.zip &> /dev/null
-    for fnts in andalemo.ttf arialbd.ttf arialbi.ttf ariali.ttf arial.ttf ariblk.ttf comicbd.ttf comic.ttf courbd.ttf courbi.ttf couri.ttf cour.ttf georgiab.ttf georgiai.ttf georgia.ttf georgiaz.ttf impact.ttf l_10646.ttf lucon.ttf micross.ttf symbol.ttf tahomabd.ttf tahoma.ttf timesbd.ttf timesbi.ttf timesi.ttf times.ttf trebucbd.ttf trebucbi.ttf trebucit.ttf trebuc.ttf verdanab.ttf verdanai.ttf verdana.ttf verdanaz.ttf webdings.ttf wingding.ttf
-    do
-    wget https://github.com/caarlos0-graveyard/msfonts/blob/master/fonts/$fnts?raw=true -P share/wine/fonts &> /dev/null
-    mv share/wine/fonts/$fnts?raw=true share/wine/fonts/$fnts
-    done
 }
 mkrawpng () {
 cat > rawpng <<'EOF'
@@ -90,6 +85,7 @@ EOF
 }
 
 mkrh () {
+    mkdir -p usr/share && mkdir wine-platform
     7z x resource_hacker.zip -x'!changes.txt' -x'!ReadMe.txt' -o"usr/share/resourcehacker" &> /dev/null
     mv usr/share/resourcehacker/ResourceHacker.exe usr/share/resourcehacker/resourcehacker.exe
     find "usr" -type d -execdir chmod 755 {} +
@@ -121,4 +117,4 @@ dlrh
 mkrawpng
 mkrh
 mkdsk
-mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications && cp -R -p {bin,usr,share} $SNAPCRAFT_PART_INSTALL
+mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications && cp -R -p {bin,usr,wine-platform} $SNAPCRAFT_PART_INSTALL

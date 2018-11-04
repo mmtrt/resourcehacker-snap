@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#
+# Author:
+#   mmtrt [Taqi Raza]
+#
+# Description:
+#   download and prepare resourcehacker for snap
+#
+# Date: Feb 17 2018
+#
+
+dlrh () {
+    wget http://www.angusj.com/resourcehacker/resource_hacker.zip &> /dev/null
+}
+
+mkrh () {
+    mkdir ./{wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications}
+    unzip resource_hacker.zip -x 'changes.txt' -x 'ReadMe.txt' -d "usr/share/resourcehacker" &> /dev/null
+    mv usr/share/resourcehacker/ResourceHacker.exe usr/share/resourcehacker/resourcehacker.exe
+    find "usr" -type d -execdir chmod 755 {} +
+}
+
+mkdsk () {
+ver=$(wget http://www.angusj.com/resourcehacker/ -q -S -O - 2>&1 | grep Version | awk '{print $2}' | sed 's|</strong><br>||;2d')
+cat > resourcehacker.desktop <<'EOF1'
+[Desktop Entry]
+Name=Resource Hacker
+GenericName=Resource Editor
+Comment=Simple and free resource editing tool.
+Encoding=UTF-8
+Version=
+Type=Application
+Terminal=false
+Icon=${SNAP}/usr/share/pixmaps/resourcehacker.png
+Exec=resourcehacker %F
+StartupWMClass=resourcehacker.exe
+Categories=Development
+MimeType=application/x-ms-dos-executable;application/x-msdownload;
+EOF1
+sed -i -e 's|Version=|Version='"$ver"'|g' resourcehacker.desktop
+}
+
+dlrh
+mkrh
+mkdsk
+mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications && mv resourcehacker.png usr/share/pixmaps && cp -R -p {bin,usr,wine-platform} $SNAPCRAFT_PART_INSTALL

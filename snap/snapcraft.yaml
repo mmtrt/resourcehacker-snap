@@ -16,7 +16,7 @@ plugs:
     content: wine-base-stable
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-i386
+    default-provider: wine-platform
 
 apps:
   resourcehacker:
@@ -27,7 +27,7 @@ apps:
 parts:
   resourcehacker:
     plugin: nil
-    source: ./scripts
+    source: ./src
     override-build: |
       snapcraftctl build
       set -ex
@@ -38,4 +38,4 @@ parts:
       - bin
       - usr
       - wine-platform
-    build-packages: [wget, p7zip-full]
+    build-packages: [wget, unzip]

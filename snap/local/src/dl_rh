@@ -14,7 +14,7 @@ dlrh () {
 }
 
 mkrh () {
-    mkdir ./{wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications}
+    mkdir -p ./{wine-runtime,wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications}
     unzip resource_hacker.zip -x 'changes.txt' -x 'ReadMe.txt' -d "usr/share/resourcehacker" &> /dev/null
     mv usr/share/resourcehacker/ResourceHacker.exe usr/share/resourcehacker/resourcehacker.exe
     find "usr" -type d -execdir chmod 755 {} +
@@ -43,4 +43,4 @@ sed -i -e 's|Version=|Version='"$ver"'|g' resourcehacker.desktop
 dlrh
 mkrh
 mkdsk
-mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications && mv resourcehacker.png usr/share/pixmaps && cp -R -p {bin,usr,wine-platform} $SNAPCRAFT_PART_INSTALL
+mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications && mv resourcehacker.png usr/share/pixmaps && cp -R -p {bin,usr,wine-runtime,wine-platform} $SNAPCRAFT_PART_INSTALL

@@ -43,4 +43,4 @@ sed -i -e 's|Version=|Version='"$ver"'|g' resourcehacker.desktop
 dlrh
 mkrh
 mkdsk
-mv resourcehacker bin && mv resourcehacker.desktop usr/share/applications && mv resourcehacker.png usr/share/pixmaps && cp -R -p {bin,usr,wine-runtime,wine-platform} $SNAPCRAFT_PART_INSTALL
+mv pre-install sommelier/hooks && mv resourcehacker.desktop usr/share/applications && mv resourcehacker.png usr/share/pixmaps && cp -R -p {sommelier,bin,usr,wine-runtime,wine-platform} $SNAPCRAFT_PART_INSTALL

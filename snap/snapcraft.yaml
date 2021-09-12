@@ -1,5 +1,5 @@
 name: resourcehacker
-title: Resource Hacker (Wine)
+title: Resource Hacker (WINE)
 summary: resourcehacker is a free resource extraction utility and resource compiler.
 description: |
  resourcehacker has been designed to be the complete resource editing tool & compiling, viewing, decompiling and recompiling resources for both 32bit and 64bit Windows executables. resourcehacker can open any type of Windows executable (*.exe; *.dll; *.scr; *.mui etc) so that individual resources can be added modified or deleted within these files. resourcehacker can create and compile resource script files (*.rc), and edit resource files (*.res) too.

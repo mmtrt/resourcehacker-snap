@@ -1,9 +1,9 @@
 name: resourcehacker
-version: latest
-version-script: cat $SNAPCRAFT_STAGE/version
+title: Resource Hacker (Wine)
 summary: resourcehacker is a free resource extraction utility and resource compiler.
 description: |
  resourcehacker has been designed to be the complete resource editing tool & compiling, viewing, decompiling and recompiling resources for both 32bit and 64bit Windows executables. resourcehacker can open any type of Windows executable (*.exe; *.dll; *.scr; *.mui etc) so that individual resources can be added modified or deleted within these files. resourcehacker can create and compile resource script files (*.rc), and edit resource files (*.res) too.
+adopt-info: resourcehacker
 
 confinement: strict
 grade: stable
@@ -11,26 +11,58 @@ architectures:
   - build-on: amd64
     run-on: [amd64, i386]
 base: core18
+compression: lzo
 
 plugs:
   wine-runtime:
     interface: content
     target: $SNAP/wine-runtime
     default-provider: wine-platform-runtime
-  wine-3-stable:
+  wine-6-stable:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-3-stable
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
+    default-provider: wine-platform-6-stable
+
+environment:
+  WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
+  RUN_EXE: "$SNAP_USER_DATA/resourcehacker/resourcehacker.exe"
+  SOMMELIER_KEEP_CWD: "1" # Don't change the working directory so relative paths still work
 
 apps:
   resourcehacker:
-    command: resourcehacker
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier run-exe
+    plugs:
+      - opengl
+      - home
+      - network
+      - hardware-observe
+      - process-control
+      - cups-control
+      - removable-media
     desktop: usr/share/applications/resourcehacker.desktop
-    plugs: [ wayland, x11, opengl, home, desktop, desktop-legacy, hardware-observe, process-control, cups-control, removable-media, icon-themes, wine-runtime, wine-3-stable ]
+  # The wine command can be used to run applications inside the wine
+  # environment that this snap uses.
+  #
+  # For example, users can configure the wine environment of this snap
+  # by running `myapp.wine winecfg`.
+  wine:
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier
+    plugs:
+      - home
+      - network
+      - hardware-observe
+      - process-control
+      - cups-control
+      - removable-media
+  # The winetricks command can be used to run winetricks inside the wine
+  # environment that this snap uses.
+  winetricks:
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier winetricks
+    plugs:
+      - network
 
 parts:
   resourcehacker:
@@ -40,11 +72,18 @@ parts:
       snapcraftctl build
       set -ex
       ver=$(wget http://www.angusj.com/resourcehacker/ -q -S -O - 2>&1 | grep Version | awk '{print $2}' | sed 's|</strong><br>||;2d')
-      echo $ver > $SNAPCRAFT_STAGE/version
+      snapcraftctl set-version "$ver"
       ./dl_rh
     stage:
       - bin
       - usr
       - wine-platform
       - wine-runtime
+      - sommelier
     build-packages: [wget, unzip]
+  # The sommelier script helps you snap Windows applications using Wine. It
+  # initializes and configures Wine and installs the Windows application.
+  sommelier:
+    plugin: make
+    source: https://github.com/snapcrafters/sommelier-core.git
+    source-branch: "1.0"

@@ -2,7 +2,7 @@ name: check
 
 on:
   schedule:
-  - cron: "0 * * * *"
+  - cron: "0 */12 * * *"
 
 jobs:
   new-release:
@@ -10,6 +10,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT }}
     - name: get-latest-version
       run: |
         VERSION="$(wget 2>/dev/null http://www.angusj.com/resourcehacker/ -qSO- | grep Version | awk '{print $2}' | sed 's|</strong><br>||;2d')"
@@ -22,5 +24,3 @@ jobs:
       with:
         commit_message: Trigger build for new version
         branch: master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

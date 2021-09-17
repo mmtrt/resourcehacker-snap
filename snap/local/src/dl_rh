@@ -14,7 +14,7 @@ dlrh () {
 }
 
 mkrh () {
-    mkdir -p ./{wine-runtime,wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications}
+    mkdir -p ./{wine-runtime,wine-platform,bin} && mkdir -p sommelier/hooks && mkdir -p usr/share/{pixmaps,applications}
     unzip resource_hacker.zip -x 'changes.txt' -x 'ReadMe.txt' -d "usr/share/resourcehacker" &> /dev/null
     mv usr/share/resourcehacker/ResourceHacker.exe usr/share/resourcehacker/resourcehacker.exe
     find "usr" -type d -execdir chmod 755 {} +
